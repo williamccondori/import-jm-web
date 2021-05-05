@@ -1,4 +1,7 @@
 export const state = () => ({
+  // ANCHOR : Products states
+  products: [],
+  modalProduct: false,
   // ANCHOR : Settings states
   units: [],
   modalUnit: false,
@@ -11,6 +14,11 @@ export const state = () => ({
 })
 
 export const actions = {
+  // ANCHOR : Products actions
+  getProducts({ commit }) {
+    const data = []
+    commit('SET_PRODUCTS', data)
+  },
   // ANCHOR : Settings actions
   getUnits({ commit }) {
     const data = []
@@ -31,7 +39,10 @@ export const actions = {
 }
 
 export const mutations = {
-  // ANCHOR : Settings mutrarions
+  // ANCHOR : Products mutations
+  SET_PRODUCT: (state, payload) => (state.products = payload),
+  SET_MODAL_PRODUCT: (state, payload) => (state.modalProduct = payload),
+  // ANCHOR : Settings mutations
   SET_UNITS: (state, payload) => (state.units = payload),
   SET_MODAL_UNIT: (state, payload) => (state.modalUnit = payload),
   SET_CATEGORIES: (state, payload) => (state.categories = payload),

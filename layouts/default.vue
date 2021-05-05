@@ -19,35 +19,22 @@
           <i class="el-icon-reading" />
           <span>Productos</span>
         </el-menu-item>
-        <el-menu-item index="sales">
+        <el-menu-item index="orders">
           <i class="el-icon-bank-card" />
-          <span>Ventas</span>
+          <span>Órdenes</span>
         </el-menu-item>
         <el-submenu index="2">
           <template slot="title">
-            <i class="el-icon-menu" />
-            <span>Inventarios</span>
+            <i class="el-icon-bank-card" />
+            <span>Ventas</span>
           </template>
-          <el-menu-item-group title="Group One">
-            <el-menu-item index="1-1">item one</el-menu-item>
-            <el-menu-item index="1-2">item one</el-menu-item>
+          <el-menu-item-group title="Gestión de ventas">
+            <el-menu-item index="sales">
+              <i class="el-icon-bank-card" />
+              <span>Realizar venta</span>
+            </el-menu-item>
           </el-menu-item-group>
-          <el-menu-item-group title="Group Two">
-            <el-menu-item index="1-3">item three</el-menu-item>
-          </el-menu-item-group>
-          <el-submenu index="1-4">
-            <template slot="title">item four</template>
-            <el-menu-item index="1-4-1">item one</el-menu-item>
-          </el-submenu>
         </el-submenu>
-        <el-menu-item index="3">
-          <i class="el-icon-menu" />
-          <span>Navigator Two</span>
-        </el-menu-item>
-        <el-menu-item index="4" disabled>
-          <i class="el-icon-document" />
-          <span>Navigator Three</span>
-        </el-menu-item>
         <el-menu-item index="settings">
           <i class="el-icon-setting" />
           <span>Configuraciones</span>
@@ -112,7 +99,7 @@ body {
   color: #fff;
 }
 .el-menu-item-group__title {
-  color: #9fa8da;
+  color: #9e9e9e;
 }
 .footer {
   height: 30px !important;
