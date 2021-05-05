@@ -12,9 +12,7 @@ module.exports = {
     'plugin:prettier/recommended',
     'plugin:nuxt/recommended'
   ],
-  plugins: [
-    ["@babel/plugin-proposal-private-methods", { "loose": true }]
-  ],
+  plugins: [],
   rules: {
     'prettier/prettier': [
       'error',
@@ -26,6 +24,7 @@ module.exports = {
         trailingComma: 'none'
       }
     ],
+    'vue/require-prop-types': 0,
     'vue/html-self-closing': [
       'error',
       {
