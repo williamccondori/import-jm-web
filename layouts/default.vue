@@ -15,6 +15,10 @@
           <i class="el-icon-house" />
           <span>Inicio</span>
         </el-menu-item>
+        <el-menu-item index="clients">
+          <i class="el-icon-reading" />
+          <span>Clientes</span>
+        </el-menu-item>
         <el-menu-item index="products">
           <i class="el-icon-reading" />
           <span>Productos</span>
@@ -65,7 +69,9 @@ export default {
       this.$router.push({
         name: index
       })
-    }
+    },
+    handleOpen() {},
+    handleClose() {}
   }
 }
 </script>
@@ -88,6 +94,28 @@ body {
 .text-right {
   text-align: right;
 }
+.mb-1 {
+  margin-bottom: 1em;
+}
+.footer {
+  height: 30px !important;
+}
+.sub-title {
+  font-size: 1em;
+  font-weight: bolder;
+}
+.copy {
+  color: #90a4ae;
+  font-size: 0.8em;
+  font-weight: bolder;
+}
+.el-form-item__label {
+  font-size: 0.8rem;
+  font-weight: bolder;
+}
+.el-select {
+  width: 100%;
+}
 .el-card,
 .el-button,
 .el-message,
@@ -101,16 +129,11 @@ body {
 .el-menu-item-group__title {
   color: #9e9e9e;
 }
-.footer {
-  height: 30px !important;
+.el-form--label-top .el-form-item__label {
+  padding: 0;
 }
-.sub-title {
-  font-size: 1em;
-  font-weight: bolder;
-}
-.copy {
-  color: #90a4ae;
-  font-size: 0.8em;
-  font-weight: bolder;
+.el-form-item--mini.el-form-item,
+.el-form-item--small.el-form-item {
+  margin-bottom: 0.5em;
 }
 </style>

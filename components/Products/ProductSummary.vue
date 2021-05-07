@@ -17,11 +17,19 @@
 <script>
 import { mapState, mapActions } from 'vuex'
 export default {
-  data() {
-    return {}
+  async fetch() {
+    try {
+      await this.getProducts()
+    } catch ({ message }) {
+      this.$notify({
+        type: 'error',
+        title: 'Error',
+        message
+      })
+    }
   },
   computed: {
-    ...mapState('products'),
+    ...mapState(['products']),
     modalProduct: {
       get() {
         return this.$store.state.modalProduct
@@ -32,10 +40,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions('getProducts')
-  },
-  fetch() {
-    this.getProducts()
+    ...mapActions(['getProducts'])
   }
 }
 </script>

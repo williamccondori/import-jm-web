@@ -9,13 +9,13 @@
       <el-tab-pane label="Unidades">
         <UnitSummary />
       </el-tab-pane>
-      <el-tab-pane label="Categoría de productos">
+      <el-tab-pane label="Categorías de producto">
         <CategorySummary />
       </el-tab-pane>
-      <el-tab-pane label="Marcas">
+      <el-tab-pane label="Marcas de producto">
         <BrandSummary />
       </el-tab-pane>
-      <el-tab-pane label="Modelos">
+      <el-tab-pane label="Modelos de producto">
         <ModelSummary />
       </el-tab-pane>
     </el-tabs>

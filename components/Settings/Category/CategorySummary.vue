@@ -1,13 +1,33 @@
 <template>
   <div>
-    <h2 class="sub-title">CATEGORÍAS</h2>
-    <el-button type="primary" plain size="mini" @click="modalCategory = true"
+    <h2 class="sub-title">CATEGORÍAS DE PRODUCTO</h2>
+    <el-button type="primary" plain size="mini" @click="handleCreate"
       >Nueva categoría</el-button
     >
     <el-table :data="categories">
-      <el-table-column prop="brand" label="Marca" />
       <el-table-column prop="name" label="Nombre" />
-      <el-table-column prop="actions" label="Acciones" />
+      <el-table-column fixed="right" label="Operaciones">
+        <template slot-scope="scope">
+          <el-button
+            type="primary"
+            size="mini"
+            plain
+            round
+            @click="handleEdit(scope.row)"
+          >
+            Editar
+          </el-button>
+          <el-button
+            type="danger"
+            size="mini"
+            plain
+            round
+            @click="handleDelete(scope.row)"
+          >
+            Eliminar
+          </el-button>
+        </template>
+      </el-table-column>
     </el-table>
   </div>
 </template>
@@ -15,11 +35,19 @@
 <script>
 import { mapState, mapActions } from 'vuex'
 export default {
-  data() {
-    return {}
+  async fetch() {
+    try {
+      await this.getCategories()
+    } catch ({ message }) {
+      this.$notify({
+        type: 'error',
+        title: 'Error',
+        message
+      })
+    }
   },
   computed: {
-    ...mapState('categories'),
+    ...mapState(['categories']),
     modalCategory: {
       get() {
         return this.$store.state.modalCategory
@@ -30,10 +58,18 @@ export default {
     }
   },
   methods: {
-    ...mapActions('getCategories')
-  },
-  fetch() {
-    this.getCategories()
+    ...mapActions(['getCategories', 'activateCategory']),
+    handleCreate() {
+      this.activateCategory(null)
+      this.modalCategory = true
+    },
+    handleEdit(row) {
+      this.activateCategory(row.id)
+      this.modalCategory = true
+    },
+    handleDelete(row) {
+      // console.log(row)
+    }
   }
 }
 </script>

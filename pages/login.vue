@@ -43,8 +43,18 @@ export default {
     }
   },
   methods: {
-    login() {
-      console.log('raaaaaaaaaaaa')
+    async login() {
+      try {
+        await this.$auth.loginWith('local', {
+          data: this.model
+        })
+      } catch ({ message }) {
+        this.$notify({
+          type: 'error',
+          title: 'Error',
+          message
+        })
+      }
     }
   }
 }
