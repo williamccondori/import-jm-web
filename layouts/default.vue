@@ -1,55 +1,130 @@
 <template>
-  <div>
-    <Nuxt />
-  </div>
+  <el-container class="h-screen">
+    <el-container>
+      <el-aside width="300px">
+        <el-menu
+          class="h-full"
+          text-color="#fff"
+          default-active="index"
+          background-color="#263238"
+          active-text-color="#00bcd4"
+          @select="selectMenu"
+        >
+          <el-menu-item index="index">
+            <i class="el-icon-house" />
+            <span>Inicio</span>
+          </el-menu-item>
+          <el-menu-item index="clients">
+            <i class="el-icon-reading" />
+            <span>Clientes</span>
+          </el-menu-item>
+          <el-menu-item index="products">
+            <i class="el-icon-reading" />
+            <span>Productos</span>
+          </el-menu-item>
+          <el-menu-item index="orders">
+            <i class="el-icon-bank-card" />
+            <span>Órdenes</span>
+          </el-menu-item>
+          <el-submenu index="2">
+            <template slot="title">
+              <i class="el-icon-bank-card" />
+              <span>Ventas</span>
+            </template>
+            <el-menu-item-group title="Gestión de ventas">
+              <el-menu-item index="sales">
+                <i class="el-icon-bank-card" />
+                <span>Realizar venta</span>
+              </el-menu-item>
+            </el-menu-item-group>
+          </el-submenu>
+          <el-menu-item index="settings">
+            <i class="el-icon-setting" />
+            <span>Configuraciones</span>
+          </el-menu-item>
+        </el-menu>
+      </el-aside>
+      <el-container>
+        <el-main>
+          <Nuxt />
+        </el-main>
+        <el-footer class="footer">
+          <span class="copy"
+            >📝 Desarrollado con 💙 por
+            <a href="https://veox.tech/" target="_blank">VEOX</a></span
+          >
+        </el-footer>
+      </el-container>
+    </el-container>
+  </el-container>
 </template>
 
-<style>
-html {
-  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI',
-    Roboto, 'Helvetica Neue', Arial, sans-serif;
-  font-size: 16px;
-  word-spacing: 1px;
-  -ms-text-size-adjust: 100%;
-  -webkit-text-size-adjust: 100%;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  box-sizing: border-box;
+<script>
+export default {
+  methods: {
+    selectMenu(index) {
+      this.$router.push({
+        name: index
+      })
+    }
+  }
 }
+</script>
 
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
+<style>
+body {
   margin: 0;
 }
-
-.button--green {
-  display: inline-block;
-  border-radius: 4px;
-  border: 1px solid #3b8070;
-  color: #3b8070;
-  text-decoration: none;
-  padding: 10px 30px;
+.flex {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-
-.button--green:hover {
-  color: #fff;
-  background-color: #3b8070;
+.h-screen {
+  min-height: 100vh;
 }
-
-.button--grey {
-  display: inline-block;
-  border-radius: 4px;
-  border: 1px solid #35495e;
-  color: #35495e;
-  text-decoration: none;
-  padding: 10px 30px;
-  margin-left: 15px;
+.h-full {
+  height: 100%;
 }
-
-.button--grey:hover {
-  color: #fff;
-  background-color: #35495e;
+.text-right {
+  text-align: right;
+}
+.mb-1 {
+  margin-bottom: 1em;
+}
+.footer {
+  height: 30px !important;
+}
+.sub-title {
+  font-size: 1em;
+  font-weight: bolder;
+}
+.copy {
+  color: #90a4ae;
+  font-size: 0.8em;
+  font-weight: bolder;
+}
+.el-form-item__label {
+  font-size: 0.8rem;
+  font-weight: bolder;
+}
+.el-select {
+  width: 100%;
+}
+.el-card,
+.el-button,
+.el-message,
+.el-input__inner {
+  border-radius: 0;
+}
+.el-menu-item i,
+.el-submenu__title i {
+  color: #90a4ae;
+}
+.el-menu-item-group__title {
+  color: #90a4ae;
+}
+.el-form--label-top .el-form-item__label {
+  padding: 0;
 }
 </style>
