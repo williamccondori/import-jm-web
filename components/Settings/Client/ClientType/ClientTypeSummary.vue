@@ -1,11 +1,20 @@
 <template>
   <div>
-    <h2 class="sub-title">MODELOS DE PRODUCTO</h2>
+    <h2 class="sub-title">TIPOS DE CLIENTE</h2>
     <el-button type="primary" plain size="mini" @click="handleCreate"
-      >Nuevo modelo</el-button
+      >Nuevo tipo de cliente</el-button
     >
-    <el-table :data="models">
-      <el-table-column prop="name" label="Nombre" />
+    <el-table :data="clientTypes" size="mini">
+      <el-table-column prop="name" label="Nombre" sortable />
+      <el-table-column prop="isEnabled" label="¿Está habilitado?" sortable>
+        <template slot-scope="scope">
+          <el-switch
+            v-model="scope.row.isEnabled"
+            active-color="#13ce66"
+            disabled
+          />
+        </template>
+      </el-table-column>
       <el-table-column fixed="right" label="Operaciones">
         <template slot-scope="scope">
           <el-button
@@ -37,7 +46,7 @@ import { mapState, mapActions } from 'vuex'
 export default {
   async fetch() {
     try {
-      await this.getModels()
+      await this.getClientTypes()
     } catch ({ message }) {
       this.$notify({
         type: 'error',
@@ -47,25 +56,25 @@ export default {
     }
   },
   computed: {
-    ...mapState(['models']),
-    modalModel: {
+    ...mapState(['clientTypes']),
+    modalClientType: {
       get() {
-        return this.$store.state.modalModel
+        return this.$store.state.modalClientType
       },
       set(value) {
-        this.$store.commit('SET_MODAL_MODEL', value)
+        this.$store.commit('SET_MODAL_CLIENT_TYPE', value)
       }
     }
   },
   methods: {
-    ...mapActions(['getModels', 'activateModel']),
+    ...mapActions(['getClientTypes', 'activateClientType']),
     handleCreate() {
-      this.activateModel(null)
-      this.modalModel = true
+      this.activateClientType(null)
+      this.modalClientType = true
     },
     handleEdit(row) {
-      this.activateModel(row.id)
-      this.modalModel = true
+      this.activateClientType(row.id)
+      this.modalClientType = true
     },
     handleDelete(row) {
       // console.log(row)

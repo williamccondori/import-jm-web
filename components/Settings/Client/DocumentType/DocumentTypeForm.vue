@@ -1,7 +1,11 @@
 <template>
   <el-dialog
-    :title="activeUnit ? `Editar unidad` : `Nueva unidad`"
-    :visible.sync="modalUnit"
+    :title="
+      activeDocumentType
+        ? `Editar tipo de documento`
+        : `Nuevo tipo de documento`
+    "
+    :visible.sync="modalDocumentType"
     width="40%"
   >
     <el-form
@@ -14,11 +18,17 @@
       @submit.native.prevent="save"
     >
       <div class="mb-1">
-        <el-form-item prop="code" label="Código de la unidad:">
-          <el-input v-model="model.code" type="text" />
-        </el-form-item>
-        <el-form-item prop="name" label="Nombre de la unidad:">
+        <el-form-item prop="name" label="Nombre:">
           <el-input v-model="model.name" type="text" />
+        </el-form-item>
+        <el-form-item prop="lenght" label="Número de dígitos:">
+          <el-input v-model="model.lenght" type="number" />
+        </el-form-item>
+        <el-form-item prop="alias" label="Abreviatura:">
+          <el-input v-model="model.alias" type="text" />
+        </el-form-item>
+        <el-form-item label="¿Está habilitado?">
+          <el-switch v-model="model.isEnabled" />
         </el-form-item>
       </div>
       <div class="text-right">
@@ -34,8 +44,10 @@
 import { mapState, mapActions } from 'vuex'
 
 const model = {
-  code: '',
-  name: ''
+  name: '',
+  lenght: 8,
+  alias: '',
+  isEnabled: true
 }
 
 export default {
@@ -43,29 +55,32 @@ export default {
     return {
       model: { ...model },
       rules: {
-        code: [
+        name: [{ required: true, message: 'Este campo es obligatorio' }],
+        lenght: [{ required: true, message: 'Este campo es obligatorio' }],
+        alias: [
           { required: true, message: 'Este campo es obligatorio' },
           { min: 3, max: 3, message: 'Este campo necesita de 3 caracteres' }
-        ],
-        name: [{ required: true, message: 'Este campo es obligatorio' }]
+        ]
       }
     }
   },
   computed: {
-    ...mapState(['activeUnit']),
-    modalUnit: {
+    ...mapState(['activeDocumentType']),
+    modalDocumentType: {
       get() {
-        return this.$store.state.modalUnit
+        return this.$store.state.modalDocumentType
       },
       set(value) {
-        this.$store.commit('SET_MODAL_UNIT', value)
+        this.$store.commit('SET_MODAL_DOCUMENT_TYPE', value)
       }
     }
   },
   watch: {
-    async modalUnit() {
-      if (this.activeUnit) {
-        const { data } = await this.$axios.get(`units/${this.activeUnit}`)
+    async modalDocumentType() {
+      if (this.activeDocumentType) {
+        const { data } = await this.$axios.get(
+          `document-types/${this.activeDocumentType}`
+        )
         this.model = data
       } else {
         this.reset()
@@ -73,7 +88,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['getUnits']),
+    ...mapActions(['getDocumentTypes']),
     reset() {
       if (this.$refs.form) this.$refs.form.resetFields()
       this.model = { ...model }
@@ -83,13 +98,16 @@ export default {
         this.$refs.form.validate((valid) => {
           if (!valid) throw new Error('Datos inválidos')
         })
-        if (this.activeUnit) {
-          await this.$axios.patch(`units/${this.activeUnit}`, this.model)
+        if (this.activeDocumentType) {
+          await this.$axios.patch(
+            `document-types/${this.activeDocumentType}`,
+            this.model
+          )
         } else {
-          await this.$axios.post(`units`, this.model)
+          await this.$axios.post(`document-types`, this.model)
         }
-        await this.getUnits()
-        this.modalUnit = false
+        await this.getDocumentTypes()
+        this.modalDocumentType = false
         this.$notify({
           type: 'success',
           title: 'Correcto',

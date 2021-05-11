@@ -1,16 +1,20 @@
 <template>
   <div>
-    <h2 class="sub-title">UNIDADES</h2>
+    <h2 class="sub-title">TIPOS DE DOCUMENTO</h2>
     <el-button type="primary" plain size="mini" @click="handleCreate"
-      >Nueva unidad</el-button
+      >Nuevo tipo de documento</el-button
     >
-    <el-table :data="units" size="mini">
-      <el-table-column prop="code" label="Código" sortable>
+    <el-table :data="documentTypes" size="mini">
+      <el-table-column prop="name" label="Nombre" sortable />
+      <el-table-column prop="isEnabled" label="¿Está habilitado?" sortable>
         <template slot-scope="scope">
-          <el-tag type="info" disable-transitions>{{ scope.row.code }}</el-tag>
+          <el-switch
+            v-model="scope.row.isEnabled"
+            active-color="#13ce66"
+            disabled
+          />
         </template>
       </el-table-column>
-      <el-table-column prop="name" label="Nombre" sortable />
       <el-table-column fixed="right" label="Operaciones">
         <template slot-scope="scope">
           <el-button
@@ -42,7 +46,7 @@ import { mapState, mapActions } from 'vuex'
 export default {
   async fetch() {
     try {
-      await this.getUnits()
+      await this.getDocumentTypes()
     } catch ({ message }) {
       this.$notify({
         type: 'error',
@@ -52,25 +56,25 @@ export default {
     }
   },
   computed: {
-    ...mapState(['units']),
-    modalUnit: {
+    ...mapState(['documentTypes']),
+    modalDocumentType: {
       get() {
-        return this.$store.state.modalUnit
+        return this.$store.state.modalDocumentType
       },
       set(value) {
-        this.$store.commit('SET_MODAL_UNIT', value)
+        this.$store.commit('SET_MODAL_DOCUMENT_TYPE', value)
       }
     }
   },
   methods: {
-    ...mapActions(['getUnits', 'activateUnit']),
+    ...mapActions(['getDocumentTypes', 'activateDocumentType']),
     handleCreate() {
-      this.activateUnit(null)
-      this.modalUnit = true
+      this.activateDocumentType(null)
+      this.modalDocumentType = true
     },
     handleEdit(row) {
-      this.activateUnit(row.code)
-      this.modalUnit = true
+      this.activateDocumentType(row.id)
+      this.modalDocumentType = true
     },
     handleDelete(row) {
       // console.log(row)

@@ -9,6 +9,11 @@
 <script>
 import SaleSummary from '~/components/Sales/SaleSummary.vue'
 export default {
-  components: { SaleSummary }
+  components: { SaleSummary },
+  methods: {
+    goBack() {
+      this.$router.push('/')
+    }
+  }
 }
 </script>

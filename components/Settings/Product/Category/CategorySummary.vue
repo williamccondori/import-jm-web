@@ -4,8 +4,8 @@
     <el-button type="primary" plain size="mini" @click="handleCreate"
       >Nueva categoría</el-button
     >
-    <el-table :data="categories">
-      <el-table-column prop="name" label="Nombre" />
+    <el-table :data="categories" size="mini">
+      <el-table-column prop="name" label="Nombre" sortable />
       <el-table-column fixed="right" label="Operaciones">
         <template slot-scope="scope">
           <el-button

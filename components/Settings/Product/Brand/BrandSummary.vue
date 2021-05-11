@@ -4,7 +4,7 @@
     <el-button type="primary" plain size="mini" @click="handleCreate"
       >Nueva marca</el-button
     >
-    <el-table :data="brands">
+    <el-table :data="brands" size="mini">
       <el-table-column prop="name" label="Nombre" sortable />
       <el-table-column fixed="right" label="Operaciones">
         <template slot-scope="scope">

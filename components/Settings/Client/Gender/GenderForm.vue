@@ -1,7 +1,7 @@
 <template>
   <el-dialog
-    :title="activeUnit ? `Editar unidad` : `Nueva unidad`"
-    :visible.sync="modalUnit"
+    :title="activeGender ? `Editar género` : `Nuevo género`"
+    :visible.sync="modalGender"
     width="40%"
   >
     <el-form
@@ -14,11 +14,11 @@
       @submit.native.prevent="save"
     >
       <div class="mb-1">
-        <el-form-item prop="code" label="Código de la unidad:">
-          <el-input v-model="model.code" type="text" />
-        </el-form-item>
-        <el-form-item prop="name" label="Nombre de la unidad:">
+        <el-form-item prop="name" label="Nombre:">
           <el-input v-model="model.name" type="text" />
+        </el-form-item>
+        <el-form-item label="¿Está habilitado?">
+          <el-switch v-model="model.isEnabled" />
         </el-form-item>
       </div>
       <div class="text-right">
@@ -34,8 +34,8 @@
 import { mapState, mapActions } from 'vuex'
 
 const model = {
-  code: '',
-  name: ''
+  name: '',
+  isEnabled: true
 }
 
 export default {
@@ -43,29 +43,25 @@ export default {
     return {
       model: { ...model },
       rules: {
-        code: [
-          { required: true, message: 'Este campo es obligatorio' },
-          { min: 3, max: 3, message: 'Este campo necesita de 3 caracteres' }
-        ],
         name: [{ required: true, message: 'Este campo es obligatorio' }]
       }
     }
   },
   computed: {
-    ...mapState(['activeUnit']),
-    modalUnit: {
+    ...mapState(['activeGender']),
+    modalGender: {
       get() {
-        return this.$store.state.modalUnit
+        return this.$store.state.modalGender
       },
       set(value) {
-        this.$store.commit('SET_MODAL_UNIT', value)
+        this.$store.commit('SET_MODAL_GENDER', value)
       }
     }
   },
   watch: {
-    async modalUnit() {
-      if (this.activeUnit) {
-        const { data } = await this.$axios.get(`units/${this.activeUnit}`)
+    async modalGender() {
+      if (this.activeGender) {
+        const { data } = await this.$axios.get(`genders/${this.activeGender}`)
         this.model = data
       } else {
         this.reset()
@@ -73,7 +69,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['getUnits']),
+    ...mapActions(['getGenders']),
     reset() {
       if (this.$refs.form) this.$refs.form.resetFields()
       this.model = { ...model }
@@ -83,13 +79,13 @@ export default {
         this.$refs.form.validate((valid) => {
           if (!valid) throw new Error('Datos inválidos')
         })
-        if (this.activeUnit) {
-          await this.$axios.patch(`units/${this.activeUnit}`, this.model)
+        if (this.activeGender) {
+          await this.$axios.patch(`genders/${this.activeGender}`, this.model)
         } else {
-          await this.$axios.post(`units`, this.model)
+          await this.$axios.post(`genders`, this.model)
         }
-        await this.getUnits()
-        this.modalUnit = false
+        await this.getGenders()
+        this.modalGender = false
         this.$notify({
           type: 'success',
           title: 'Correcto',

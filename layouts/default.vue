@@ -1,63 +1,60 @@
 <template>
   <el-container class="h-screen">
-    <el-aside width="300px">
-      <el-menu
-        class="h-full"
-        default-active="1"
-        text-color="#fff"
-        background-color="#153a73"
-        active-text-color="#00bcd4"
-        @open="handleOpen"
-        @close="handleClose"
-        @select="selectMenu"
-      >
-        <el-menu-item index="index">
-          <i class="el-icon-house" />
-          <span>Inicio</span>
-        </el-menu-item>
-        <el-menu-item index="clients">
-          <i class="el-icon-reading" />
-          <span>Clientes</span>
-        </el-menu-item>
-        <el-menu-item index="products">
-          <i class="el-icon-reading" />
-          <span>Productos</span>
-        </el-menu-item>
-        <el-menu-item index="orders">
-          <i class="el-icon-bank-card" />
-          <span>Órdenes</span>
-        </el-menu-item>
-        <el-submenu index="2">
-          <template slot="title">
-            <i class="el-icon-bank-card" />
-            <span>Ventas</span>
-          </template>
-          <el-menu-item-group title="Gestión de ventas">
-            <el-menu-item index="sales">
-              <i class="el-icon-bank-card" />
-              <span>Realizar venta</span>
-            </el-menu-item>
-          </el-menu-item-group>
-        </el-submenu>
-        <el-menu-item index="settings">
-          <i class="el-icon-setting" />
-          <span>Configuraciones</span>
-        </el-menu-item>
-      </el-menu>
-    </el-aside>
     <el-container>
-      <!--
-      <el-header>Cabecera</el-header>
-      -->
-      <el-main>
-        <Nuxt />
-      </el-main>
-      <el-footer class="footer">
-        <span class="copy"
-          >📝 Desarrollado con 💙 por
-          <a href="https://veox.tech/" target="_blank">VEOX</a></span
+      <el-aside width="300px">
+        <el-menu
+          class="h-full"
+          text-color="#fff"
+          default-active="index"
+          background-color="#263238"
+          active-text-color="#00bcd4"
+          @select="selectMenu"
         >
-      </el-footer>
+          <el-menu-item index="index">
+            <i class="el-icon-house" />
+            <span>Inicio</span>
+          </el-menu-item>
+          <el-menu-item index="clients">
+            <i class="el-icon-reading" />
+            <span>Clientes</span>
+          </el-menu-item>
+          <el-menu-item index="products">
+            <i class="el-icon-reading" />
+            <span>Productos</span>
+          </el-menu-item>
+          <el-menu-item index="orders">
+            <i class="el-icon-bank-card" />
+            <span>Órdenes</span>
+          </el-menu-item>
+          <el-submenu index="2">
+            <template slot="title">
+              <i class="el-icon-bank-card" />
+              <span>Ventas</span>
+            </template>
+            <el-menu-item-group title="Gestión de ventas">
+              <el-menu-item index="sales">
+                <i class="el-icon-bank-card" />
+                <span>Realizar venta</span>
+              </el-menu-item>
+            </el-menu-item-group>
+          </el-submenu>
+          <el-menu-item index="settings">
+            <i class="el-icon-setting" />
+            <span>Configuraciones</span>
+          </el-menu-item>
+        </el-menu>
+      </el-aside>
+      <el-container>
+        <el-main>
+          <Nuxt />
+        </el-main>
+        <el-footer class="footer">
+          <span class="copy"
+            >📝 Desarrollado con 💙 por
+            <a href="https://veox.tech/" target="_blank">VEOX</a></span
+          >
+        </el-footer>
+      </el-container>
     </el-container>
   </el-container>
 </template>
@@ -69,9 +66,7 @@ export default {
       this.$router.push({
         name: index
       })
-    },
-    handleOpen() {},
-    handleClose() {}
+    }
   }
 }
 </script>
@@ -124,16 +119,12 @@ body {
 }
 .el-menu-item i,
 .el-submenu__title i {
-  color: #fff;
+  color: #90a4ae;
 }
 .el-menu-item-group__title {
-  color: #9e9e9e;
+  color: #90a4ae;
 }
 .el-form--label-top .el-form-item__label {
   padding: 0;
-}
-.el-form-item--mini.el-form-item,
-.el-form-item--small.el-form-item {
-  margin-bottom: 0.5em;
 }
 </style>

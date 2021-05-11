@@ -9,6 +9,11 @@
 <script>
 import OrderSummary from '~/components/Orders/OrderSummary.vue'
 export default {
-  components: { OrderSummary }
+  components: { OrderSummary },
+  methods: {
+    goBack() {
+      this.$router.push('/')
+    }
+  }
 }
 </script>

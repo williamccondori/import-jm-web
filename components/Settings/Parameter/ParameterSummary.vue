@@ -1,16 +1,23 @@
 <template>
   <div>
-    <h2 class="sub-title">UNIDADES</h2>
-    <el-button type="primary" plain size="mini" @click="handleCreate"
-      >Nueva unidad</el-button
-    >
-    <el-table :data="units" size="mini">
+    <h2 class="sub-title">PARÁMETROS</h2>
+    <el-table :data="parameters" size="mini">
       <el-table-column prop="code" label="Código" sortable>
         <template slot-scope="scope">
           <el-tag type="info" disable-transitions>{{ scope.row.code }}</el-tag>
         </template>
       </el-table-column>
       <el-table-column prop="name" label="Nombre" sortable />
+      <el-table-column prop="value" label="Valor" />
+      <el-table-column prop="isEnabled" label="¿Está habilitado?" sortable>
+        <template slot-scope="scope">
+          <el-switch
+            v-model="scope.row.isEnabled"
+            active-color="#13ce66"
+            disabled
+          />
+        </template>
+      </el-table-column>
       <el-table-column fixed="right" label="Operaciones">
         <template slot-scope="scope">
           <el-button
@@ -21,15 +28,6 @@
             @click="handleEdit(scope.row)"
           >
             Editar
-          </el-button>
-          <el-button
-            type="danger"
-            size="mini"
-            plain
-            round
-            @click="handleDelete(scope.row)"
-          >
-            Eliminar
           </el-button>
         </template>
       </el-table-column>
@@ -42,7 +40,7 @@ import { mapState, mapActions } from 'vuex'
 export default {
   async fetch() {
     try {
-      await this.getUnits()
+      await this.getParameters()
     } catch ({ message }) {
       this.$notify({
         type: 'error',
@@ -52,28 +50,25 @@ export default {
     }
   },
   computed: {
-    ...mapState(['units']),
-    modalUnit: {
+    ...mapState(['parameters']),
+    modalParameter: {
       get() {
-        return this.$store.state.modalUnit
+        return this.$store.state.modalParameter
       },
       set(value) {
-        this.$store.commit('SET_MODAL_UNIT', value)
+        this.$store.commit('SET_MODAL_PARAMETER', value)
       }
     }
   },
   methods: {
-    ...mapActions(['getUnits', 'activateUnit']),
+    ...mapActions(['getParameters', 'activateParameter']),
     handleCreate() {
-      this.activateUnit(null)
-      this.modalUnit = true
+      this.activateParameter(null)
+      this.modalParameter = true
     },
     handleEdit(row) {
-      this.activateUnit(row.code)
-      this.modalUnit = true
-    },
-    handleDelete(row) {
-      // console.log(row)
+      this.activateParameter(row.code)
+      this.modalParameter = true
     }
   }
 }

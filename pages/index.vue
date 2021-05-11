@@ -1,12 +1,6 @@
 <template>
   <div>
-    <el-alert
-      title="Bienvenido!"
-      type="success"
-      description="This is a description."
-      show-icon
-    />
-    <h1>Hola mundo!</h1>
+    <el-alert title="Bienvenido!" type="success" show-icon />
   </div>
 </template>
 

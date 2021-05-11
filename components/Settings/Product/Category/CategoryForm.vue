@@ -1,19 +1,20 @@
 <template>
   <el-dialog
-    :title="activeBrand ? `Editar marca` : `Nueva marca`"
-    :visible.sync="modalBrand"
+    :title="activeCategory ? `Editar categoría` : `Nueva categoría`"
+    :visible.sync="modalCategory"
     width="40%"
   >
     <el-form
       ref="form"
       size="small"
+      :rules="rules"
       :model="model"
       label-width="200px"
       label-position="left"
       @submit.native.prevent="save"
     >
       <div class="mb-1">
-        <el-form-item prop="name" label="Nombre de la marca:">
+        <el-form-item prop="name" label="Nombre de la categoría:">
           <el-input v-model="model.name" type="text" />
         </el-form-item>
       </div>
@@ -36,43 +37,56 @@ const model = {
 export default {
   data() {
     return {
-      model
+      model: { ...model },
+      rules: {
+        name: [{ required: true, message: 'Este campo es obligatorio' }]
+      }
     }
   },
   computed: {
-    ...mapState(['activeBrand']),
-    modalBrand: {
+    ...mapState(['activeCategory']),
+    modalCategory: {
       get() {
-        return this.$store.state.modalBrand
+        return this.$store.state.modalCategory
       },
       set(value) {
-        this.$store.commit('SET_MODAL_BRAND', value)
+        this.$store.commit('SET_MODAL_CATEGORY', value)
       }
     }
   },
   watch: {
-    async activeBrand() {
-      this.reset()
-      if (this.activeBrand) {
-        const { data } = await this.$axios.get(`brands/${this.activeBrand}`)
+    async modalCategory() {
+      if (this.activeCategory) {
+        const { data } = await this.$axios.get(
+          `categories/${this.activeCategory}`
+        )
         this.model = data
+      } else {
+        this.reset()
       }
     }
   },
   methods: {
-    ...mapActions(['getBrands']),
+    ...mapActions(['getCategories']),
     reset() {
-      this.model = model
+      if (this.$refs.form) this.$refs.form.resetFields()
+      this.model = { ...model }
     },
     async save() {
       try {
-        if (this.activeBrand) {
-          await this.$axios.patch(`brands/${this.activeBrand}`, this.model)
+        this.$refs.form.validate((valid) => {
+          if (!valid) throw new Error('Datos inválidos')
+        })
+        if (this.activeCategory) {
+          await this.$axios.patch(
+            `categories/${this.activeCategory}`,
+            this.model
+          )
         } else {
-          await this.$axios.post(`brands`, this.model)
+          await this.$axios.post(`categories`, this.model)
         }
-        await this.getBrands()
-        this.modalBrand = false
+        await this.getCategories()
+        this.modalCategory = false
         this.$notify({
           type: 'success',
           title: 'Correcto',

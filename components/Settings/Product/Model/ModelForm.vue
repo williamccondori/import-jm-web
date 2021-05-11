@@ -7,13 +7,14 @@
     <el-form
       ref="form"
       size="small"
+      :rules="rules"
       :model="model"
       label-width="200px"
       label-position="left"
       @submit.native.prevent="save"
     >
       <div class="mb-1">
-        <el-form-item label="Marca:">
+        <el-form-item prop="brandId" label="Marca:">
           <el-select v-model="model.brandId" placeholder="Seleccione">
             <el-option
               v-for="item in brands"
@@ -23,8 +24,11 @@
             />
           </el-select>
         </el-form-item>
-        <el-form-item prop="name" label="Nombre del modelo:">
+        <el-form-item prop="name" label="Nombre:">
           <el-input v-model="model.name" type="text" />
+        </el-form-item>
+        <el-form-item prop="description" label="Descripción:">
+          <el-input v-model="model.description" type="text" />
         </el-form-item>
       </div>
       <div class="text-right">
@@ -41,13 +45,18 @@ import { mapState, mapActions } from 'vuex'
 
 const model = {
   brandId: null,
-  name: ''
+  name: '',
+  description: ''
 }
 
 export default {
   data() {
     return {
-      model
+      model: { ...model },
+      rules: {
+        brandId: [{ required: true, message: 'Este campo es obligatorio' }],
+        name: [{ required: true, message: 'Este campo es obligatorio' }]
+      }
     }
   },
   async fetch() {
@@ -65,21 +74,26 @@ export default {
     }
   },
   watch: {
-    async activeModel() {
-      this.reset()
+    async modalModel() {
       if (this.activeModel) {
         const { data } = await this.$axios.get(`models/${this.activeModel}`)
         this.model = data
+      } else {
+        this.reset()
       }
     }
   },
   methods: {
     ...mapActions(['getModels', 'getBrands']),
     reset() {
-      this.model = model
+      if (this.$refs.form) this.$refs.form.resetFields()
+      this.model = { ...model }
     },
     async save() {
       try {
+        this.$refs.form.validate((valid) => {
+          if (!valid) throw new Error('Datos inválidos')
+        })
         if (this.activeModel) {
           await this.$axios.patch(`models/${this.activeModel}`, this.model)
         } else {

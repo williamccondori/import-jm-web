@@ -4,7 +4,7 @@
     <el-button type="primary" plain size="mini" @click="modalProduct = true"
       >Nuevo producto</el-button
     >
-    <el-table :data="products">
+    <el-table :data="products" size="mini">
       <el-table-column prop="brand" label="Código" />
       <el-table-column prop="brand" label="Marca" />
       <el-table-column prop="brand" label="Modelo" />

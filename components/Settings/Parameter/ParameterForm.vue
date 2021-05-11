@@ -1,7 +1,7 @@
 <template>
   <el-dialog
-    :title="activeUnit ? `Editar unidad` : `Nueva unidad`"
-    :visible.sync="modalUnit"
+    :title="activeParameter ? `Editar parámetro` : `Nueva parámetro`"
+    :visible.sync="modalParameter"
     width="40%"
   >
     <el-form
@@ -14,11 +14,19 @@
       @submit.native.prevent="save"
     >
       <div class="mb-1">
-        <el-form-item prop="code" label="Código de la unidad:">
-          <el-input v-model="model.code" type="text" />
+        <el-form-item prop="code" label="Código:">
+          <el-input
+            v-model="model.code"
+            type="text"
+            readonly="readonly"
+            disabled="disabled"
+          />
         </el-form-item>
-        <el-form-item prop="name" label="Nombre de la unidad:">
+        <el-form-item prop="name" label="Nombre:">
           <el-input v-model="model.name" type="text" />
+        </el-form-item>
+        <el-form-item prop="value" label="Valor:">
+          <el-input v-model="model.value" type="text" />
         </el-form-item>
       </div>
       <div class="text-right">
@@ -35,7 +43,8 @@ import { mapState, mapActions } from 'vuex'
 
 const model = {
   code: '',
-  name: ''
+  name: '',
+  value: ''
 }
 
 export default {
@@ -43,29 +52,28 @@ export default {
     return {
       model: { ...model },
       rules: {
-        code: [
-          { required: true, message: 'Este campo es obligatorio' },
-          { min: 3, max: 3, message: 'Este campo necesita de 3 caracteres' }
-        ],
-        name: [{ required: true, message: 'Este campo es obligatorio' }]
+        name: [{ required: true, message: 'Este campo es obligatorio' }],
+        value: [{ required: true, message: 'Este campo es obligatorio' }]
       }
     }
   },
   computed: {
-    ...mapState(['activeUnit']),
-    modalUnit: {
+    ...mapState(['activeParameter']),
+    modalParameter: {
       get() {
-        return this.$store.state.modalUnit
+        return this.$store.state.modalParameter
       },
       set(value) {
-        this.$store.commit('SET_MODAL_UNIT', value)
+        this.$store.commit('SET_MODAL_PARAMETER', value)
       }
     }
   },
   watch: {
-    async modalUnit() {
-      if (this.activeUnit) {
-        const { data } = await this.$axios.get(`units/${this.activeUnit}`)
+    async modalParameter() {
+      if (this.activeParameter) {
+        const { data } = await this.$axios.get(
+          `parameters/${this.activeParameter}`
+        )
         this.model = data
       } else {
         this.reset()
@@ -73,7 +81,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['getUnits']),
+    ...mapActions(['getParameters']),
     reset() {
       if (this.$refs.form) this.$refs.form.resetFields()
       this.model = { ...model }
@@ -83,13 +91,16 @@ export default {
         this.$refs.form.validate((valid) => {
           if (!valid) throw new Error('Datos inválidos')
         })
-        if (this.activeUnit) {
-          await this.$axios.patch(`units/${this.activeUnit}`, this.model)
+        if (this.activeParameter) {
+          await this.$axios.patch(
+            `parameters/${this.activeParameter}`,
+            this.model
+          )
         } else {
-          await this.$axios.post(`units`, this.model)
+          await this.$axios.post(`parameters`, this.model)
         }
-        await this.getUnits()
-        this.modalUnit = false
+        await this.getParameters()
+        this.modalParameter = false
         this.$notify({
           type: 'success',
           title: 'Correcto',

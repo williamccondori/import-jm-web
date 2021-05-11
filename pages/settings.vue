@@ -3,54 +3,47 @@
     <el-page-header content="Configuraciones" @back="goBack" />
     <el-divider />
     <el-tabs tab-position="left">
-      <el-tab-pane label="Impuestos">
-        <div>Impuestos</div>
+      <el-tab-pane label="Empresa">
+        <div>Empresa</div>
       </el-tab-pane>
       <el-tab-pane label="Unidades">
         <UnitSummary />
       </el-tab-pane>
-      <el-tab-pane label="Categorías de producto">
-        <CategorySummary />
+      <el-tab-pane label="Parámetros">
+        <ParameterSummary />
       </el-tab-pane>
-      <el-tab-pane label="Marcas de producto">
-        <BrandSummary />
+      <el-tab-pane label="Clientes">
+        <client-tab />
       </el-tab-pane>
-      <el-tab-pane label="Modelos de producto">
-        <ModelSummary />
+      <el-tab-pane label="Productos">
+        <product-tab />
       </el-tab-pane>
     </el-tabs>
-    <!-- ANCHOR: form modals -->
     <UnitForm />
-    <CategoryForm />
-    <BrandForm />
-    <ModelForm />
+    <ParameterForm />
   </div>
 </template>
 
 <script>
+import ClientTab from '~/components/Settings/Client/ClientTab.vue'
+import ParameterForm from '~/components/Settings/Parameter/ParameterForm.vue'
+import ParameterSummary from '~/components/Settings/Parameter/ParameterSummary.vue'
+import ProductTab from '~/components/Settings/Product/ProductTab.vue'
 import UnitForm from '~/components/Settings/Unit/UnitForm.vue'
 import UnitSummary from '~/components/Settings/Unit/UnitSummary.vue'
-import CategoryForm from '~/components/Settings/Category/CategoryForm.vue'
-import CategorySummary from '~/components/Settings/Category/CategorySummary.vue'
-import BrandForm from '~/components/Settings/Brand/BrandForm.vue'
-import BrandSummary from '~/components/Settings/Brand/BrandSummary.vue'
-import ModelForm from '~/components/Settings/Model/ModelForm.vue'
-import ModelSummary from '~/components/Settings/Model/ModelSummary.vue'
 export default {
   components: {
     UnitForm,
     UnitSummary,
-    CategoryForm,
-    CategorySummary,
-    BrandForm,
-    BrandSummary,
-    ModelForm,
-    ModelSummary
+    ProductTab,
+    ClientTab,
+    ParameterSummary,
+    ParameterForm
   },
   methods: {
-    goBack() {}
+    goBack() {
+      this.$router.push('/')
+    }
   }
 }
 </script>
-
-<style></style>
