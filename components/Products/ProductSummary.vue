@@ -1,15 +1,57 @@
 <template>
   <div>
     <h2 class="sub-title">PRODUCTOS</h2>
-    <el-button type="primary" plain size="mini" @click="modalProduct = true"
+    <el-button type="primary" plain size="mini" @click="handleCreate"
       >Nuevo producto</el-button
     >
     <el-table :data="products" size="mini">
-      <el-table-column prop="brand" label="Código" />
-      <el-table-column prop="brand" label="Marca" />
-      <el-table-column prop="brand" label="Modelo" />
-      <el-table-column prop="name" label="Nombre" />
-      <el-table-column prop="actions" label="Acciones" />
+      <el-table-column prop="code" label="Código" sortable />
+      <el-table-column prop="brand" label="Marca" sortable>
+        <template slot-scope="scope">
+          <el-tag type="warning" size="small" disable-transitions>{{
+            scope.row.brand.name
+          }}</el-tag>
+        </template>
+      </el-table-column>
+      <el-table-column prop="model" label="Model" sortable>
+        <template slot-scope="scope">
+          <el-tag type="warning" size="small" disable-transitions>{{
+            scope.row.model.name
+          }}</el-tag>
+        </template>
+      </el-table-column>
+      <el-table-column prop="name" label="Nombre" sortable />
+      <el-table-column prop="isEnabled" label="¿Está habilitado?" sortable>
+        <template slot-scope="scope">
+          <el-switch
+            v-model="scope.row.isEnabled"
+            active-color="#13ce66"
+            disabled
+          />
+        </template>
+      </el-table-column>
+      <el-table-column fixed="right" label="Operaciones">
+        <template slot-scope="scope">
+          <el-button
+            type="primary"
+            size="mini"
+            plain
+            round
+            @click="handleEdit(scope.row)"
+          >
+            Editar
+          </el-button>
+          <el-button
+            type="danger"
+            size="mini"
+            plain
+            round
+            @click="handleDelete(scope.row)"
+          >
+            Eliminar
+          </el-button>
+        </template>
+      </el-table-column>
     </el-table>
   </div>
 </template>
@@ -40,7 +82,18 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['getProducts'])
+    ...mapActions(['getProducts', 'activateProduct']),
+    handleCreate() {
+      this.activateProduct(null)
+      this.modalProduct = true
+    },
+    handleEdit(row) {
+      this.activateProduct(row.id)
+      this.modalProduct = true
+    },
+    handleDelete(row) {
+      // console.log(row)
+    }
   }
 }
 </script>

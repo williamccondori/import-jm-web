@@ -7,13 +7,14 @@
     <el-form
       ref="form"
       size="small"
+      :rules="rules"
       :model="model"
       label-width="200px"
       label-position="left"
       @submit.native.prevent="save"
     >
       <div class="mb-1">
-        <el-form-item label="Categoría:">
+        <el-form-item prop="categoryId" label="Categoría:">
           <el-select v-model="model.categoryId" placeholder="Seleccione">
             <el-option
               v-for="item in categories"
@@ -23,10 +24,13 @@
             />
           </el-select>
         </el-form-item>
-        <el-form-item prop="name" label="Nombre del producto:">
+        <el-form-item prop="code" label="Código:">
+          <el-input v-model="model.code" type="text" />
+        </el-form-item>
+        <el-form-item prop="name" label="Nombre:">
           <el-input v-model="model.name" type="text" />
         </el-form-item>
-        <el-form-item label="Marca:">
+        <el-form-item prop="brandId" label="Marca:">
           <el-select
             v-model="model.brandId"
             placeholder="Seleccione"
@@ -40,7 +44,7 @@
             />
           </el-select>
         </el-form-item>
-        <el-form-item label="Modelo:">
+        <el-form-item prop="modelId" label="Modelo:">
           <el-select v-model="model.modelId" placeholder="Seleccione">
             <el-option
               v-for="item in models"
@@ -84,8 +88,22 @@ const model = {
 export default {
   data() {
     return {
+      models: [],
       model: { ...model },
-      models: []
+      rules: {
+        categoryId: [{ required: true, message: 'Este campo es obligatorio' }],
+        code: [
+          { required: true, message: 'Este campo es obligatorio' },
+          { max: 100, message: 'Máximo 100 caracteres' }
+        ],
+        name: [
+          { required: true, message: 'Este campo es obligatorio' },
+          { max: 100, message: 'Máximo 100 caracteres' }
+        ],
+        brandId: [{ required: true, message: 'Este campo es obligatorio' }],
+        modelId: [{ required: true, message: 'Este campo es obligatorio' }],
+        unintId: [{ required: true, message: 'Este campo es obligatorio' }]
+      }
     }
   },
   async fetch() {
@@ -96,7 +114,6 @@ export default {
     ...mapState(['activeProduct', 'categories', 'brands']),
     modalProduct: {
       get() {
-        this.reset()
         return this.$store.state.modalProduct
       },
       set(value) {
@@ -105,16 +122,19 @@ export default {
     }
   },
   watch: {
-    async activeProduct() {
+    async modalProduct() {
       if (this.activeProduct) {
         const { data } = await this.$axios.get(`products/${this.activeProduct}`)
         this.model = data
+      } else {
+        this.reset()
       }
     }
   },
   methods: {
     ...mapActions(['getProducts', 'getCategories', 'getBrands']),
     reset() {
+      if (this.$refs.form) this.$refs.form.resetFields()
       this.model = { ...model }
     },
     async handleBrandChange() {
@@ -139,17 +159,30 @@ export default {
         this.model.name = `${brand.name} ${model.name}`.toUpperCase()
       }
     },
-    save() {
-      if (this.id) {
-        // update
-      } else {
-        // create
+    async save() {
+      try {
+        this.$refs.form.validate((valid) => {
+          if (!valid) throw new Error('Datos inválidos')
+        })
+        if (this.activeProduct) {
+          await this.$axios.patch(`products/${this.activeProduct}`, this.model)
+        } else {
+          await this.$axios.post(`products`, this.model)
+        }
+        await this.getProducts()
+        this.modalProduct = false
+        this.$notify({
+          type: 'success',
+          title: 'Correcto',
+          message: 'La operación de ha realizado con éxito'
+        })
+      } catch ({ message }) {
+        this.$notify({
+          type: 'error',
+          title: 'Error',
+          message
+        })
       }
-      this.$notify({
-        type: 'success',
-        title: 'Correcto',
-        message: 'La operación de ha realizado con éxito'
-      })
     }
   }
 }
