@@ -13,7 +13,7 @@ build:
   script:
     - echo "Building app"
     - npm install
-    - npm build
+    - npm run build
     - echo "Build successfully!"
   artifacts:
     expire_in: 1 hour
@@ -26,7 +26,7 @@ test:
   image: node
   script:
     - echo "Testing app"
-    - CI=true npm test
+    - CI=true npm run test
     - echo "Test successfully!"
 
 lint:
