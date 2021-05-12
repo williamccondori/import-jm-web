@@ -57,3 +57,5 @@ deploy:
     - echo "Deploying app"
   script:
     - echo "Deploy successfully!"
+  only:
+    - master
