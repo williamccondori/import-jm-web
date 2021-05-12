@@ -20,6 +20,8 @@ build:
     paths:
       - build
       - node_modules/
+  only:
+    - master
 
 test:
   stage: test
@@ -28,6 +30,8 @@ test:
     - echo "Testing app"
     - CI=true npm run test
     - echo "Test successfully!"
+  only:
+    - master
 
 lint:
   stage: lint
@@ -36,6 +40,8 @@ lint:
     - echo "Linting app"
     - CI=true npm run lint
     - echo "Lint successfully!"
+  only:
+    - master
 
 docker-build:
   stage: docker-build
