@@ -5,9 +5,9 @@ ARG api
 ENV APP_ROOT /src
 ENV API_BASE_URL=$api
 
-ENV NODE_ENV=production
 ENV HOST=0.0.0.0
 ENV PORT=80
+ENV NODE_ENV=production
 
 RUN mkdir -p ${APP_ROOT}
 WORKDIR ${APP_ROOT}
@@ -15,7 +15,7 @@ WORKDIR ${APP_ROOT}
 RUN apk update && apk upgrade
 
 COPY ./package.json ${APP_ROOT}/
-RUN npm install --production
+RUN npm install
 
 COPY . ${APP_ROOT}/
 RUN npm run build
