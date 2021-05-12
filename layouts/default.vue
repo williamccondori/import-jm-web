@@ -14,26 +14,36 @@
             <i class="el-icon-house" />
             <span>Inicio</span>
           </el-menu-item>
+          <el-menu-item index="providers">
+            <i class="el-icon-truck" />
+            <span>Proveedores</span>
+          </el-menu-item>
           <el-menu-item index="clients">
-            <i class="el-icon-reading" />
+            <i class="el-icon-suitcase" />
             <span>Clientes</span>
           </el-menu-item>
           <el-menu-item index="products">
-            <i class="el-icon-reading" />
+            <i class="el-icon-notebook-1" />
             <span>Productos</span>
           </el-menu-item>
-          <el-menu-item index="orders">
-            <i class="el-icon-bank-card" />
-            <span>Órdenes</span>
-          </el-menu-item>
+          <el-submenu index="1">
+            <template slot="title">
+              <i class="el-icon-box" />
+              <span>Órdenes</span>
+            </template>
+            <el-menu-item-group title="Compras">
+              <el-menu-item index="orders">
+                <span>Realizar órden</span>
+              </el-menu-item>
+            </el-menu-item-group>
+          </el-submenu>
           <el-submenu index="2">
             <template slot="title">
-              <i class="el-icon-bank-card" />
+              <i class="el-icon-shopping-cart-full" />
               <span>Ventas</span>
             </template>
-            <el-menu-item-group title="Gestión de ventas">
+            <el-menu-item-group title="Ventas">
               <el-menu-item index="sales">
-                <i class="el-icon-bank-card" />
                 <span>Realizar venta</span>
               </el-menu-item>
             </el-menu-item-group>

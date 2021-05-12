@@ -7,7 +7,7 @@
     <el-table :data="models" size="mini">
       <el-table-column prop="brand" label="Marca" sortable>
         <template slot-scope="scope">
-          <el-tag type="warning" size="mini" disable-transitions>{{
+          <el-tag type="warning" size="small" disable-transitions>{{
             scope.row.brand.name
           }}</el-tag>
         </template>

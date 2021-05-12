@@ -54,6 +54,16 @@
             />
           </el-select>
         </el-form-item>
+        <el-collapse v-model="collapse">
+          <el-collapse-item title="Ver más">
+            <el-form-item prop="description" label="Datos adicionales:">
+              <el-input v-model="model.description" type="text" />
+            </el-form-item>
+            <el-form-item prop="isEnabled" label="¿Está habilitado?">
+              <el-switch v-model="model.isEnabled" />
+            </el-form-item>
+          </el-collapse-item>
+        </el-collapse>
       </div>
       <div class="text-right">
         <el-button
@@ -81,13 +91,16 @@ const model = {
   categoryId: null,
   brandId: null,
   modelId: null,
+  code: '',
   name: '',
-  description: ''
+  description: '',
+  isEnabled: true
 }
 
 export default {
   data() {
     return {
+      collapse: [],
       models: [],
       model: { ...model },
       rules: {
@@ -135,6 +148,7 @@ export default {
     ...mapActions(['getProducts', 'getCategories', 'getBrands']),
     reset() {
       if (this.$refs.form) this.$refs.form.resetFields()
+      this.collapse = []
       this.model = { ...model }
     },
     async handleBrandChange() {
