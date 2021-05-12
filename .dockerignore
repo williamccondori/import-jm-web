@@ -1,0 +1,11 @@
+# node js files
+node_modules
+npm-debug.log
+
+# nuxt files
+.nuxt
+
+# app build files
+dist
+build
+coverage

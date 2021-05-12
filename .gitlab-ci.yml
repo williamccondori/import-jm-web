@@ -1,0 +1,57 @@
+# Taked from https://dev.to/christianmontero/gitlab-ci-cd-example-with-a-dockerized-reactjs-app-1cda
+
+stages:
+  - build
+  - test
+  - lint
+  - docker-build
+  - deploy
+
+build:
+  stage: build
+  image: node
+  script:
+    - echo "Start building app"
+    - npm install
+    - npm build
+    - echo "Build successfully!"
+  artifacts:
+    expire_in: 1 hour
+    paths:
+      - build
+      - node_modules/
+
+test:
+  stage: test
+  image: node
+  script:
+    - echo "Testing app"
+    - CI=true npm test
+    - echo "Test successfully!"
+
+lint:
+  stage: lint
+  image: node
+  script:
+    - echo "Linting app"
+    - CI=true npm run lint
+    - echo "Lint successfully!"
+
+docker-build:
+  stage: docker-build
+  image: docker:latest
+  services:
+    - name: docker:19.03.8-dind
+  before_script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+  script:
+    - docker build --pull -t "$CI_REGISTRY_IMAGE" --build-arg api="$CI_API_BASE_URL" .
+    - docker push "$CI_REGISTRY_IMAGE"
+  only:
+    - master
+
+deploy:
+  stage: deploy
+  image: kroniak/ssh-client
+  before_script:
+    - echo "deploying app"
