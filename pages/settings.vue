@@ -4,39 +4,38 @@
     <el-divider />
     <el-tabs tab-position="left">
       <el-tab-pane label="Empresa">
-        <div>Empresa</div>
-      </el-tab-pane>
-      <el-tab-pane label="Unidades">
-        <UnitSummary />
+        <CompanyTab />
       </el-tab-pane>
       <el-tab-pane label="Parámetros">
         <ParameterSummary />
       </el-tab-pane>
+      <el-tab-pane label="General">
+        <GeneralTab />
+      </el-tab-pane>
       <el-tab-pane label="Clientes">
-        <client-tab />
+        <ClientTab />
       </el-tab-pane>
       <el-tab-pane label="Productos">
-        <product-tab />
+        <ProductTab />
       </el-tab-pane>
     </el-tabs>
-    <UnitForm />
     <ParameterForm />
   </div>
 </template>
 
 <script>
+import CompanyTab from '~/components/Settings/Company/CompanyTab.vue'
 import ClientTab from '~/components/Settings/Client/ClientTab.vue'
+import GeneralTab from '~/components/Settings/General/GeneralTab.vue'
 import ParameterForm from '~/components/Settings/Parameter/ParameterForm.vue'
 import ParameterSummary from '~/components/Settings/Parameter/ParameterSummary.vue'
 import ProductTab from '~/components/Settings/Product/ProductTab.vue'
-import UnitForm from '~/components/Settings/Unit/UnitForm.vue'
-import UnitSummary from '~/components/Settings/Unit/UnitSummary.vue'
 export default {
   components: {
-    UnitForm,
-    UnitSummary,
+    CompanyTab,
     ProductTab,
     ClientTab,
+    GeneralTab,
     ParameterSummary,
     ParameterForm
   },

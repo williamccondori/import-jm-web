@@ -1,4 +1,8 @@
 export const state = () => ({
+  // ANCHOR : Providers states
+  providers: [],
+  activeProvider: null,
+  modalProvider: false,
   // ANCHOR : Clients states
   clients: [],
   activeClient: null,
@@ -43,6 +47,14 @@ export const state = () => ({
 })
 
 export const actions = {
+  // ANCHOR : Providers actions
+  async getProviders({ commit }) {
+    const { data } = await this.$axios.get('providers')
+    commit('SET_PROVIDERS', data)
+  },
+  activateProvider({ commit }, providerId) {
+    commit('SET_ACTIVE_PROVIDER', providerId)
+  },
   // ANCHOR : Clients actions
   async getClients({ commit }) {
     const { data } = await this.$axios.get('clients')
@@ -154,6 +166,10 @@ export const getters = {
 }
 
 export const mutations = {
+  // ANCHOR : Providers mutations
+  SET_PROVIDERS: (state, payload) => (state.providers = payload),
+  SET_ACTIVE_PROVIDER: (state, payload) => (state.activeProvider = payload),
+  SET_MODAL_PROVIDER: (state, payload) => (state.modalProvider = payload),
   // ANCHOR : Clients mutations
   SET_CLIENTS: (state, payload) => (state.clients = payload),
   SET_ACTIVE_CLIENT: (state, payload) => (state.activeClient = payload),

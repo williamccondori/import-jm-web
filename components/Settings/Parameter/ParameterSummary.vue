@@ -4,7 +4,7 @@
     <el-table :data="parameters" size="mini">
       <el-table-column prop="code" label="Código" sortable>
         <template slot-scope="scope">
-          <el-tag type="info" disable-transitions>{{ scope.row.code }}</el-tag>
+          <el-tag size="small" disable-transitions>{{ scope.row.code }}</el-tag>
         </template>
       </el-table-column>
       <el-table-column prop="name" label="Nombre" sortable />

@@ -1,36 +1,23 @@
 <template>
   <div>
-    <h2 class="sub-title">PRODUCTOS</h2>
+    <h2 class="sub-title">PROVEEDORES</h2>
     <el-button type="primary" plain size="mini" @click="handleCreate"
-      >Nuevo producto</el-button
+      >Nuevo proveedor</el-button
     >
-    <el-table :data="products" size="mini">
+    <el-table :data="providers" size="mini">
       <el-table-column type="expand">
         <template slot-scope="scope">
-          <p v-if="scope.row.brand">Marca: {{ scope.row.brand.name }}</p>
-          <p v-if="scope.row.model">Modelo: {{ scope.row.model.name }}</p>
+          <p>Nombre legal: {{ scope.row.legalName }}</p>
+          <p v-if="scope.row.documentType">
+            Tipo de documento: {{ scope.row.documentType.name }} [{{
+              scope.row.documentType.alias
+            }}]
+          </p>
+          <p>Dirección: {{ scope.row.address }}</p>
         </template>
       </el-table-column>
-      <el-table-column prop="code" label="Código" sortable>
-        <template slot-scope="scope">
-          <el-tag size="small" disable-transitions>{{ scope.row.code }}</el-tag>
-        </template>
-      </el-table-column>
-      <el-table-column prop="brand" label="Marca" sortable>
-        <template slot-scope="scope">
-          <el-tag type="warning" size="small" disable-transitions>{{
-            scope.row.brand.name
-          }}</el-tag>
-        </template>
-      </el-table-column>
-      <el-table-column prop="model" label="Modelo" sortable>
-        <template slot-scope="scope">
-          <el-tag type="warning" size="small" disable-transitions>{{
-            scope.row.model.name
-          }}</el-tag>
-        </template>
-      </el-table-column>
-      <el-table-column prop="name" label="Nombre" sortable />
+      <el-table-column prop="documentNumber" label="N° de documento" sortable />
+      <el-table-column prop="legalName" label="Nombre" sortable />
       <el-table-column prop="isEnabled" label="¿Está habilitado?" sortable>
         <template slot-scope="scope">
           <el-switch
@@ -71,7 +58,7 @@ import { mapState, mapActions } from 'vuex'
 export default {
   async fetch() {
     try {
-      await this.getProducts()
+      await this.getProviders()
     } catch ({ message }) {
       this.$notify({
         type: 'error',
@@ -81,25 +68,25 @@ export default {
     }
   },
   computed: {
-    ...mapState(['products']),
-    modalProduct: {
+    ...mapState(['providers']),
+    modalProvider: {
       get() {
-        return this.$store.state.modalProduct
+        return this.$store.state.modalProvider
       },
       set(value) {
-        this.$store.commit('SET_MODAL_PRODUCT', value)
+        this.$store.commit('SET_MODAL_PROVIDER', value)
       }
     }
   },
   methods: {
-    ...mapActions(['getProducts', 'activateProduct']),
+    ...mapActions(['getProviders', 'activateProvider']),
     handleCreate() {
-      this.activateProduct(null)
-      this.modalProduct = true
+      this.activateProvider(null)
+      this.modalProvider = true
     },
     handleEdit(row) {
-      this.activateProduct(row.id)
-      this.modalProduct = true
+      this.activateProvider(row.id)
+      this.modalProvider = true
     },
     handleDelete(row) {
       // console.log(row)

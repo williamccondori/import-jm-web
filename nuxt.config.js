@@ -45,7 +45,7 @@ export default {
   axios: {
     baseURL:
       process.env.NODE_ENV === 'production'
-        ? 'https://beta.api.attendance.veox.tech/api/'
+        ? process.env.API_BASE_URL
         : 'http://localhost:8000/api/'
   },
 
