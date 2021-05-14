@@ -14,7 +14,7 @@
       @submit.native.prevent="save"
     >
       <div class="mb-1">
-        <el-form-item prop="name" label="Nombre de la categoría:">
+        <el-form-item prop="name" label="Nombre:">
           <el-input v-model="model.name" type="text" />
         </el-form-item>
       </div>

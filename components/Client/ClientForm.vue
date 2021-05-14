@@ -155,6 +155,7 @@ export default {
   },
   watch: {
     async modalClient() {
+      this.collapse = []
       if (this.activeClient) {
         const { data } = await this.$axios.get(`clients/${this.activeClient}`)
         this.model = data
@@ -172,7 +173,6 @@ export default {
     ]),
     reset() {
       if (this.$refs.form) this.$refs.form.resetFields()
-      this.collapse = []
       this.model = { ...model }
     },
     /** 

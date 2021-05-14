@@ -12,6 +12,10 @@ export const state = () => ({
   activeProduct: null,
   modalProduct: false,
   // ANCHOR : Settings states
+  // locations
+  locations: [],
+  activeLocation: null,
+  modalLocation: false,
   // units
   units: [],
   activeUnit: null,
@@ -43,7 +47,22 @@ export const state = () => ({
   // models
   models: [],
   activeModel: null,
-  modalModel: false
+  modalModel: false,
+  // currencies
+  currencies: [
+    {
+      id: 'PER',
+      symbol: 'S/',
+      label: 'SOLES',
+      name: 'NUEVOS SOLES'
+    },
+    {
+      id: 'USD',
+      symbol: '$',
+      label: 'DÓLARES',
+      name: 'DÓLARES AMERICANOS'
+    }
+  ]
 })
 
 export const actions = {
@@ -72,9 +91,17 @@ export const actions = {
     commit('SET_ACTIVE_PRODUCT', productId)
   },
   // ANCHOR : Settings actions
+  // locations
+  async getLocations({ commit }) {
+    const { data } = await this.$axios.get('locations')
+    commit('SET_LOCATIONS', data)
+  },
+  activateLocation({ commit }, unitId) {
+    commit('SET_ACTIVE_LOCATION', unitId)
+  },
   // units
   async getUnits({ commit }) {
-    const { data } = await this.$axios.get('units')
+    const { data } = await this.$axios.get('locations')
     commit('SET_UNITS', data)
   },
   activateUnit({ commit }, unitId) {
@@ -162,6 +189,17 @@ export const getters = {
         id: gender.id,
         label: gender.name
       }))
+  },
+  providers: (state) => {
+    return state.providers
+      .filter((provider) => provider.isEnabled)
+      .map((provider) => ({
+        id: provider.id,
+        label: provider.legalName
+      }))
+  },
+  currencies: (state) => {
+    return state.currencies
   }
 }
 
@@ -179,6 +217,10 @@ export const mutations = {
   SET_ACTIVE_PRODUCT: (state, payload) => (state.activeProduct = payload),
   SET_MODAL_PRODUCT: (state, payload) => (state.modalProduct = payload),
   // ANCHOR : Settings mutations
+  // locations
+  SET_LOCATIONS: (state, payload) => (state.locations = payload),
+  SET_ACTIVE_LOCATION: (state, payload) => (state.activeLocation = payload),
+  SET_MODAL_LOCATION: (state, payload) => (state.modalLocation = payload),
   // units
   SET_UNITS: (state, payload) => (state.units = payload),
   SET_ACTIVE_UNIT: (state, payload) => (state.activeUnit = payload),

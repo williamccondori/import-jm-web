@@ -126,6 +126,7 @@ export default {
   },
   watch: {
     async modalProvider() {
+      this.collapse = []
       if (this.activeProvider) {
         const { data } = await this.$axios.get(
           `providers/${this.activeProvider}`
@@ -140,7 +141,6 @@ export default {
     ...mapActions(['getProviders', 'getDocumentTypes']),
     reset() {
       if (this.$refs.form) this.$refs.form.resetFields()
-      this.collapse = []
       this.model = { ...model }
     },
     /** 

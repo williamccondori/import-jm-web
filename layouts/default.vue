@@ -137,4 +137,10 @@ body {
 .el-form--label-top .el-form-item__label {
   padding: 0;
 }
+.input-with-select .el-select > .el-input {
+  width: 120px;
+}
+.input-with-select .el-input-group__append {
+  background-color: #fff;
+}
 </style>

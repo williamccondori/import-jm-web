@@ -136,6 +136,7 @@ export default {
   },
   watch: {
     async modalProduct() {
+      this.collapse = []
       if (this.activeProduct) {
         const { data } = await this.$axios.get(`products/${this.activeProduct}`)
         this.model = data
@@ -148,7 +149,6 @@ export default {
     ...mapActions(['getProducts', 'getCategories', 'getBrands']),
     reset() {
       if (this.$refs.form) this.$refs.form.resetFields()
-      this.collapse = []
       this.model = { ...model }
     },
     async handleBrandChange() {
